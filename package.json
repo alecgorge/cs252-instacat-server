@@ -1,0 +1,28 @@
+{
+  "name": "cs252-instacat-server",
+  "version": "0.0.0",
+  "description": "Instacat server for CS252",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alecgorge/cs252-instacat-server.git"
+  },
+  "author": "Alec Gorge, Austin Rauschburger, Manik Kalra",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "2ece8487dbd2ef09cc62f1bce3d9a336cd06fde1",
+  "devDependencies": {
+    "coffee-script": "~1.7.1"
+  },
+  "dependencies": {
+    "passport-http": "~0.2.2",
+    "passport": "~0.2.0",
+    "express": "~4.0.0",
+    "sqlite3": "~2.2.3",
+    "sequelize": "~1.7.1",
+    "bcrypt-nodejs": "0.0.3"
+  }
+}
