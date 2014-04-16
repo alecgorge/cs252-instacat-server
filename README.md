@@ -26,13 +26,27 @@ To implement comments and likes, we will need 2 extra tables that map between us
 
 ## Routes
 
-All these routes return JSON (except for .jpg obviously) and require basic auth. For security we can implement SSL if we choose.
+All these routes return JSON (except for .jpg obviously) and require basic auth (except for user creation). For security we can implement SSL if we choose.
 
-### `POST /api/image`
+### `POST /api/users/new`
+
+* `handle` the handle
+* `name` the full name
+* `password` the password
+
+### `POST /api/images/new`
+
+* `image` the uploaded file
 
 ### `GET /api/images/`
 
 ### `GET /api/images/:image_uuid`
+
+### `POST /api/images/:image_uuid/like`
+
+### `POST /api/images/:image_uuid/comment`
+
+* `comment` the textcomment
 
 ### `GET /api/images/:image_uuid.jpg`
 

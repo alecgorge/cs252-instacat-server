@@ -4,7 +4,7 @@
   "description": "Instacat server for CS252",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node_modules/.bin/coffee src/index.coffee"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,10 @@
     "express": "~4.0.0",
     "sqlite3": "~2.2.3",
     "sequelize": "~1.7.1",
-    "bcrypt-nodejs": "0.0.3"
+    "bcrypt": "~0.7.7",
+    "errorhandler": "~1.0.0",
+    "morgan": "~1.0.0",
+    "body-parser": "~1.0.2",
+    "connect-multiparty": "~1.0.3"
   }
 }
