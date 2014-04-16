@@ -18,7 +18,6 @@ User = db.define 'User',
 			bcrypt.compare password, @hash, cb
 	classMethods :
 		hashPassword : (password, cb) ->
-			console.log password
 			bcrypt.hash password, 8, (err, hash) -> cb err, hash
 
 Image = db.define 'Image',
