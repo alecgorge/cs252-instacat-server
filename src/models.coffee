@@ -1,5 +1,5 @@
 Sequelize 		= require 'sequelize'
-bcrypt 	 		= require 'bcrypt'
+bcrypt 	 		= require 'bcryptjs'
 
 config 			= require './config'
 

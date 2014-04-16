@@ -23,10 +23,10 @@
     "express": "~4.0.0",
     "sqlite3": "~2.2.3",
     "sequelize": "~1.7.1",
-    "bcrypt": "~0.7.7",
     "errorhandler": "~1.0.0",
     "morgan": "~1.0.0",
     "body-parser": "~1.0.2",
-    "connect-multiparty": "~1.0.3"
+    "connect-multiparty": "~1.0.3",
+    "bcryptjs": "~0.7.12"
   }
 }
