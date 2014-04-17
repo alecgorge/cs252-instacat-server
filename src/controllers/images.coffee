@@ -1,5 +1,11 @@
-models = require '../models'
-uuidgen = require 'node-uuid'
+uuidgen 	= require 'node-uuid'
+fs 			= require 'fs'
+
+models 		= require '../models'
+
+rerr = (res) ->
+	return (err) ->
+		throw err if err
 
 module.exports.images = (req, res) ->
 	last_visible_uuid = req.param 'starting_at'
@@ -14,23 +20,15 @@ module.exports.upload_image = (req, res) ->
 	image = req.files.image
 	user = req.user
 	uuid = uuidgen.v4()
-	#add image to user_images
-	app.post "/", (req, res) ->
-  		fs.readFile image.path, (err, data) ->
-    		newPath = __dirname + "../user_images/" + uuid
-    		fs.writeFile newPath, data, (err) ->
-      			throw err  if err
-     			res.redirect "back"
-
 
 	#add image to database
-	models.Image.find where uuid: uuid
+	models.Image.find where: uuid: uuid
 		.error rerr(res)
 		.success (img) ->
 			if img
 				uuid= uuidgen.v4()
 
-			newimg = modles.Image.build
+			newimg = models.Image.build
 				uuid: uuid
 
 
@@ -40,8 +38,12 @@ module.exports.upload_image = (req, res) ->
 				.success ->
 					newimg.setUser(user)
 						.success ->
+							fs.readFile image.path, (err, data) ->
+    							newPath = __dirname + "/../../user_images/" + uuid + ".jpg"
+    							fs.writeFile newPath, data, (err) ->
+      								throw err  if err
 							res.send 201
-						.error(errors) ->
+						.error (errors) ->
 							res.json 400,errors
 					
 				.error (errors) ->
