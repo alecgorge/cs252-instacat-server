@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "dev": "node_modules/.bin/coffee src/index.coffee",
-    "start": "node_modules/.bin/forever start -a -l logs/forever.log -o logs/out.log -e logs/err.log -c node_modules/.bin/coffee src/index.coffee",
+    "start": "node_modules/.bin/forever start -p logs -c node_modules/.bin/coffee src/index.coffee",
     "stop": "node_modules/.bin/forever stop -c node_modules/.bin/coffee src/index.coffee || true"
   },
   "repository": {

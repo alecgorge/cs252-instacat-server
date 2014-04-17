@@ -21,7 +21,7 @@ module.exports.upload_image = (req, res) ->
 	user = req.user
 	uuid = uuidgen.v4()
 
-	#add image to database
+	# add image to database
 	models.Image.find where: uuid: uuid
 		.error rerr(res)
 		.success (img) ->
