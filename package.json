@@ -4,7 +4,9 @@
   "description": "Instacat server for CS252",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "node_modules/.bin/coffee src/index.coffee"
+    "dev": "node_modules/.bin/coffee src/index.coffee",
+    "start": "node_modules/.bin/forever start -a -l logs/forever.log -o logs/out.log -e logs/err.log -c node_modules/.bin/coffee src/index.coffee",
+    "stop": "node_modules/.bin/forever stop -c node_modules/.bin/coffee src/index.coffee || true"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,8 @@
     "body-parser": "~1.0.2",
     "connect-multiparty": "~1.0.3",
     "bcryptjs": "~0.7.12",
-    "debug-trace": "~0.2.2"
+    "debug-trace": "~0.2.2",
+    "forever": "~0.11.0",
+    "node-uuid": "~1.4.1"
   }
 }
