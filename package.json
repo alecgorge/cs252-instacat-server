@@ -27,6 +27,7 @@
     "morgan": "~1.0.0",
     "body-parser": "~1.0.2",
     "connect-multiparty": "~1.0.3",
-    "bcryptjs": "~0.7.12"
+    "bcryptjs": "~0.7.12",
+    "debug-trace": "~0.2.2"
   }
 }

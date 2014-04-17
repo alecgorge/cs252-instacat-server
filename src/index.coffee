@@ -1,3 +1,7 @@
+require('debug-trace')({
+  always: true,
+})
+
 express 		= require 'express'
 passport 		= require 'passport'
 logger 			= require 'morgan'
@@ -6,7 +10,7 @@ multipart 	 	= require 'connect-multiparty'
 
 models 			= require './models'
 config 			= require './config'
-auth 			= require './auth'
+authf 			= require './auth'
 
 c_users 		= require './controllers/users'
 c_images 		= require './controllers/images'
@@ -14,6 +18,7 @@ c_images 		= require './controllers/images'
 app 			= express()
 auth 			= passport.authenticate 'basic', session: false
 
+app.use passport.initialize()
 app.use logger 'dev'
 app.use body_parser()
 app.use multipart()

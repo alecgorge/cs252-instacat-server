@@ -4,8 +4,9 @@ passport_http 	= require 'passport-http'
 models 			= require './models'
 
 auth = (u, p, done) ->
-	models.User.findOne(where: username: u).success (err, user) ->
-		return done(err) if err
+	models.User.find(where: handle: u).success (user) ->
+		if not user
+			return done null, false
 
 		user.checkPassword p, (err, valid) ->
 			return done(err) if err
