@@ -39,19 +39,15 @@ module.exports.upload_image = (req, res) ->
 					newimg.setUser(user)
 						.success ->
 							fs.readFile image.path, (err, data) ->
-    							newPath = __dirname + "/../../user_images/" + uuid + ".jpg"
-    							fs.writeFile newPath, data, (err) ->
-      								throw err  if err
+								newPath = __dirname + "/../../user_images/" + uuid + ".jpg"
+								fs.writeFile newPath, data, (err) ->
+										throw err  if err
 							res.send 201
 						.error (errors) ->
 							res.json 400,errors
 					
 				.error (errors) ->
 					res.json 400, errors
-
-
-
-
 
 module.exports.like_image = (req, res) ->
 	uuid = req.param 'image_uuid'
