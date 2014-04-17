@@ -39,5 +39,8 @@ module.exports.user = (req, res) ->
 	models.User.find where: handle: handle
 		.error rerr(res)
 		.success (user) ->
+			if user is null
+				return res.send 404, 'User does not exist' 
+		
 			res.json name: user.name, handle: user.handle, createdAt: user.createdAt
 

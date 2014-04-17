@@ -38,7 +38,9 @@ Comment.belongsTo Image
 
 Image.hasMany Like
 Image.hasMany Comment
+Image.belongsTo User
 
+User.hasMany Image
 User.hasMany Comment
 User.hasMany Like
 
