@@ -6,6 +6,9 @@ Instacat server for CS252
 
 ```
 npm install
+npm run-script dev
+npm start
+npm stop
 ```
 
 # Spec
