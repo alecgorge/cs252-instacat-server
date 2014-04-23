@@ -7,26 +7,52 @@ rerr = (res) ->
 	return (err) ->
 		throw err if err
 
+#can I just do this through multiple calls to .image, if so how?
 module.exports.images = (req, res) ->
 	last_visible_uuid = req.param 'starting_at'
 
+#the ......s have syntax questions
 module.exports.image = (req, res) ->
 	uuid = req.param 'image_uuid'
 
-	models.Image.find where: uuid: uuid
+	#how do I do multiple includes?
+	models.Image.find where: {uuid: uuid}, include: [models.Like] .......
 		.error rerr(res)
 		.success (img) ->
 			if img is null
-				return res.send 404, 'User does not exist'
+				return res.send 404, 'Image does not exist'
 
-			#I'm assuming you might want me to return some user data as well? 
+			#okay so is this in a callback hell or can I do the jsons seperately (aka what the hell is a json??) Or maybe you want me to look up that ??? named thing that
+			#is supposed to help me with not having callback hell or whatever?
+			image.getLikes()
+				.error rerr(res)
+				.success (likes) ->
+					for (like in likes)
+						res.json ......
+
+			image.getComments()
+				.error rerr(res)
+				.success (comments) ->
+					for (comment in comments)
+						res.json .........
+
+			image.getUser()
+				.error rerr(res)
+				.success (user) ->
+					..........
+
 			res.json uuid: img.uuid, createdAt: img.createdAt 
 			
 module.exports.image_jpg = (req, res) ->
 	uuid = req.param 'image_uuid'
-	filePath = _dirname + "/../../user_images" + uuid + ".jpg"
+	filePath = _dirname + "/../../user_images/" + uuid + ".jpg"
 
-	#TODO properly set the image into the response
+	fs.open (filePath, 'r', (err, fd) ->
+  		if err
+    		next()
+  		else
+    		fs.close fd
+    		res.sendfile (filePath)
 
 module.exports.upload_image = (req, res) ->
 	image = req.files.image
@@ -65,59 +91,73 @@ module.exports.like_image = (req, res) ->
 	uuid = req.param 'image_uuid'
 	user = req.user
 
-
-	#do a join on the Users, Images, and Likes tables (ask Alec for syntax)
+	#read over this callback hell and make sure it's right. I'll reformat it later as long as I know it works
+	models.Image.find where: {uuid: uuid}, include: [ models.Like ]
 		.error rerr(res)
-		.success (like) ->
-			if like
-				res.send 409
-				return
+		.success (image) ->
+			image.getLikes()
+				.error rerr(res)
+				.success (likes) ->
+					models.Like.find where: {UserId: user.id}
+						.error rerr(res)
+						.success (like) ->
+							for (storedLike in likes)
+								if storedLike == like
+									res.send 409
+									return
 
-			newlike = models.Like.build
+							newlike = models.Like.build
 
-			errors = newlike.validate()
+							errors = newlike.validate()
 
-			newlike.save()
-				.success ->
-					newlike.setUser(user)
-						.success ->
-							newlike.setImage(uuid)
+							newlike.save()
 								.success ->
-									res.send 201
+									newlike.setUser(user)
+										.success ->
+											newlike.setImage(image)
+												.success ->
+													res.send 201
+												.error (errors) ->
+													res.json 400,errors
+										.error (errors) ->
+											res.json 400,errors
 								.error (errors) ->
 									res.json 400,errors
-						.error (errors) ->
-							res.json 400,errors
-				.error (errors) ->
-					res.json 400,errors
 
 module.exports.comment_image = (req, res) ->
 	uuid = req.param 'image_uuid'
 	comment = req.param 'comment'
 	user = req.user
 
-	#do a join on the Users, Images, and Comments tables (ask Alec for syntax)
+	models.Image.find where: {uuid: uuid}, include: [ models.Comment ]
 		.error rerr(res)
-		.success (commentret) ->
-			if commentret
-				res.send 409
-				return
+		.success (image) ->
+			image.getComments()
+				.error rerr(res)
+				.success (comments) ->
+					models.Comment.find where: {UserId: user.id}
+						.error rerr(res)
+						.success (commentret) ->
+							for (storedComment in comments)
+								if storedComment == commentret
+									res.send 409
+									return
 
-			newcomment = models.Comment.build
-				text: comment
-			errors = newcomment.validate()
-				
+							newcomment = models.Comment.build
+								text: comment
+							errors = newcomment.validate()
+								
 
-			newcomment.save()
-				.success ->
-					newcomment.setUser(user)
-						.success ->
-							newcomment.setImage(uuid)
+							newcomment.save()
 								.success ->
-									res.send 201
+									newcomment.setUser(user)
+										.success ->
+											newcomment.setImage(image)
+												.success ->
+													res.send 201
+												.error (errors) ->
+													res.json 400,errors
+										.error (errors) ->
+											res.json 400,errors
 								.error (errors) ->
 									res.json 400,errors
-						.error (errors) ->
-							res.json 400,errors
-				.error (errors) ->
-					res.json 400,errors
