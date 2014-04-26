@@ -33,6 +33,10 @@ module.exports.users_new = (req, res) ->
 				    .error (errors) ->
 				    	res.json 400, errors
 
+# middleware will handle a invalid username/password
+module.exports.check = (req, res) ->
+	res.send 200
+
 module.exports.user = (req, res) ->
 	handle = req.param 'handle'
 
