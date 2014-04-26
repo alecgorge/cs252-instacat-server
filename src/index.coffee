@@ -32,7 +32,7 @@ app.get  '/api/images/:image_uuid.jpg', 			c_images.image_jpg
 app.get  '/api/images/:image_uuid', 				c_images.image
 
 # protected routes
-app.post '/api/users/check', 				auth, 	c_users.check
+app.get  '/api/users/check', 				auth, 	c_users.check
 app.post '/api/images/new', 				auth, 	c_images.upload_image
 app.post '/api/images/:image_uuid/like', 	auth, 	c_images.like_image
 app.post '/api/images/:image_uuid/comment', auth, 	c_images.comment_image
