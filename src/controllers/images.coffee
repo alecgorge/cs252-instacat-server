@@ -26,6 +26,9 @@ module.exports.images = (req, res) ->
 		{
 			model: models.Comment
 			include: [ models.User ]
+		},
+		{
+			model: models.User
 		}
 	])
 		.error(rerr(res))
@@ -47,6 +50,9 @@ module.exports.image = (req, res) ->
 			{
 				model: models.Comment
 				include: [ models.User ]
+			},
+			{
+				model: models.User
 			}
 		]
 	)
