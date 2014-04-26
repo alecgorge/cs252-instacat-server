@@ -36,5 +36,7 @@ app.post '/api/images/new', 				auth, 	c_images.upload_image
 app.post '/api/images/:image_uuid/like', 	auth, 	c_images.like_image
 app.post '/api/images/:image_uuid/comment', auth, 	c_images.comment_image
 
+app.get  '/test.html', (req, res) -> res.render 'form.jade'
+
 app.listen config.env().port
 console.log "Listening on port #{config.env().port}"
