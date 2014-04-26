@@ -18,19 +18,22 @@ clean_img_json = (json) ->
 module.exports.images = (req, res) ->
 	last_visible_uuid = req.param 'starting_at'
 
-	models.Image.findAll(include: [
-		{
-			model: models.Like
-			include: [ models.User ]
-		},
-		{
-			model: models.Comment
-			include: [ models.User ]
-		},
-		{
-			model: models.User
-		}
-	])
+	models.Image.findAll({
+		include: [
+			{
+				model: models.Like
+				include: [ models.User ]
+			},
+			{
+				model: models.Comment
+				include: [ models.User ]
+			},
+			{
+				model: models.User
+			}
+		],
+		order: 'createdAt DESC'
+	)
 		.error(rerr(res))
 		.success (imgs) ->
 			res.json imgs.map (v) -> clean_img_json v.toJSON()
