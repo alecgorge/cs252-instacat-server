@@ -31,9 +31,9 @@ module.exports.images = (req, res) ->
 			{
 				model: models.User
 			}
-		],
+		]
 		order: 'createdAt DESC'
-	)
+	})
 		.error(rerr(res))
 		.success (imgs) ->
 			res.json imgs.map (v) -> clean_img_json v.toJSON()
