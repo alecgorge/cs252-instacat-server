@@ -9,7 +9,7 @@ rerr = (res) ->
 		throw err if err
 
 clean_img_json = (json) ->
-	json.likes = json.likes.map (v) -> v.user.handle
+	json.likes = json.likes.map (v) -> { user: v.user.handle, createdAt: v.createdAt }
 	json.comments = json.comments.map (v) -> { text: v.text, user: v.user.handle, createdAt: v.createdAt } 
 
 	return json
