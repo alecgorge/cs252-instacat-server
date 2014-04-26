@@ -29,13 +29,13 @@ module.exports.users_new = (req, res) ->
 
 				newu.save()
 				    .success ->
-				    	res.send 201
+				    	res.send 201, created: true
 				    .error (errors) ->
 				    	res.json 400, errors
 
 # middleware will handle a invalid username/password
 module.exports.check = (req, res) ->
-	res.send 200
+	res.send 200, valid: true
 
 module.exports.user = (req, res) ->
 	handle = req.param 'handle'

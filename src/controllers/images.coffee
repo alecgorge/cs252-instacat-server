@@ -98,7 +98,7 @@ module.exports.upload_image = (req, res) ->
 
 							writeStream = fs.createWriteStream newPath
 							writeStream.on 'error', rerr(res)
-							writeStream.on 'close', -> res.send 201
+							writeStream.on 'close', -> res.send 201, created: true
 
 							readStream.pipe writeStream
 
@@ -113,7 +113,7 @@ module.exports.like_image = (req, res) ->
 				.error rerr(res)
 				.success (like, created) ->
 					if not created
-						return res.send 201
+						return res.send 201, created: true
 
 					ch = new models.QueryChainer
 					
@@ -123,7 +123,7 @@ module.exports.like_image = (req, res) ->
 					  .run()
 					  .error rerr(res)
 					  .success ->
-					  	res.send 201
+					  	res.send 201, created: true
 
 module.exports.comment_image = (req, res) ->
 	uuid = req.param 'image_uuid'
@@ -144,4 +144,4 @@ module.exports.comment_image = (req, res) ->
 					  .run()
 					  .error rerr(res)
 					  .success ->
-					  	res.send 201
+					  	res.send 201, created: true
