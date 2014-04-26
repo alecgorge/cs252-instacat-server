@@ -27,9 +27,9 @@ app.use require('errorhandler')(showStack: true, dumpExceptions: true)
 # unprotected routes
 app.post '/api/users/new', 							c_users.users_new
 app.get  '/api/users/:handle', 						c_users.user
-app.post '/api/images/', 							c_images.images
-app.get  '/api/images/:image_uuid', 				c_images.image
+app.get  '/api/images/', 							c_images.images
 app.get  '/api/images/:image_uuid.jpg', 			c_images.image_jpg
+app.get  '/api/images/:image_uuid', 				c_images.image
 
 # protected routes
 app.post '/api/images/new', 				auth, 	c_images.upload_image
