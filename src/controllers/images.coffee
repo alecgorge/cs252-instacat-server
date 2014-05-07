@@ -14,7 +14,6 @@ clean_img_json = (json) ->
 
 	return json
 
-#can I just do this through multiple calls to .image, if so how?
 module.exports.images = (req, res) ->
 	last_visible_uuid = req.param 'starting_at'
 
@@ -27,6 +26,7 @@ module.exports.images = (req, res) ->
 			{
 				model: models.Comment
 				include: [ models.User ]
+				order: 'createdAt DESC'
 			},
 			{
 				model: models.User
@@ -38,11 +38,9 @@ module.exports.images = (req, res) ->
 		.success (imgs) ->
 			res.json imgs.map (v) -> clean_img_json v.toJSON()
 
-#the ......s have syntax questions
 module.exports.image = (req, res) ->
 	uuid = req.param 'image_uuid'
 
-	#how do I do multiple includes?
 	models.Image.find(
 		where: uuid: uuid
 		include: [
@@ -53,6 +51,7 @@ module.exports.image = (req, res) ->
 			{
 				model: models.Comment
 				include: [ models.User ]
+				order: 'createdAt DESC'
 			},
 			{
 				model: models.User
@@ -101,9 +100,14 @@ module.exports.upload_image = (req, res) ->
 
 							writeStream = fs.createWriteStream newPath
 							writeStream.on 'error', rerr(res)
-							writeStream.on 'close', -> res.send 201, created: true
+							writeStream.on 'close', -> 
+								fs.unlink image.path, (err) ->
+  									throw err if err
+								res.send 201, created: true
 
 							readStream.pipe writeStream
+
+							
 
 module.exports.like_image = (req, res) ->
 	uuid = req.param 'image_uuid'
